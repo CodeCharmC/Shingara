@@ -20,33 +20,33 @@
          height: 100vh;
       }
       .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
+         background-color: #fff;
+         padding: 20px;
+         border-radius: 8px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         text-align: center;
       }
       .input-container {
-      margin-bottom: 10px;
+         margin-bottom: 10px;
       }
       input[type="number"] {
-      width: 50px;
+         width: 50px;
       }
       button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+         padding: 10px 20px;
+         background-color: #4CAF50;
+         color: #fff;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         transition: background-color 0.3s;
       }
       button:hover {
-      background-color: #45a049;
+         background-color: #45a049;
       }
       #result {
-      margin-top: 20px;
-      font-size: 18px;
+         margin-top: 20px;
+         font-size: 18px;
       }
    </style>
 </head>
@@ -56,9 +56,7 @@
       <h6>Let's have some delicious bites</h6>
    </div>
    <div class="container">
-      <h1 >
-         Evenly Shingara Distribution Tally
-      </h1>
+      <h1>Evenly Shingara Distribution Tally</h1>      
       <div class="input-container">
          <label for="participants">
             Number of Participants:
@@ -71,7 +69,9 @@
          >
       </div>
       <div class="input-container">
-         <label for="shingara">Number of Shingaras:</label>
+         <label for="shingara">
+            Number of Shingaras:
+         </label>
          <input 
             type="number" 
             id="shingaras" 
@@ -83,6 +83,56 @@
          Calculate
       </button>
       <div id="result"></div>
+
+      <script>
+         document
+            .getElementById('calculate-btn')
+            .addEventListener('click', function() {
+               const numParticipants = parseInt(document.getElementById('participants').value);
+               const numShingaras = parseInt(document.getElementById('shingaras').value);
+
+               if (numParticipants === 0 && numShingaras === 0) {
+                  document.getElementById('result').textContent = "Please enter valid numbers for the participants.";
+                  return;
+               }
+
+               if (numParticipants === 0) {
+                  document.getElementById('result').textContent = "There are no need for shingaras, as there are no participants.";
+                  return;
+               }
+
+               if (numParticipants === numShingaras) {
+                  document.getElementById('result').textContent = "You don't need to buy more. Each participant will get one shingara.";
+                  return;
+               }
+
+               if (numShingaras ===  0) {
+                  const extraShingarasNeeded = numParticipants
+                  document.getElementById('result').textContent = `You need to buy ${extraShingarasNeeded} shingaras, so that each participant can get one shingara.`;
+                  return;
+               }
+
+               let extraShingarasNeeded = 0;
+
+               if (numParticipants > numShingaras) {
+                  extraShingarasNeeded = numParticipants - numShingaras;
+                  document.getElementById('result').textContent = `You need to buy ${extraShingarasNeeded} more shingaras to distribute one shingara for each.`;
+                  return;
+               }
+
+               if (numParticipants < numShingaras) {
+                  const shingarasPerParticipant = numShingaras / numParticipants;
+                  if (Number.isInteger(shingarasPerParticipant)) {
+                     document.getElementById('result').textContent = `No need to buy more. Each participant will get ${shingarasPerParticipant} shingara.`;
+                     return;
+                  }
+                  const totalShingarasNeeded = Math.ceil(shingarasPerParticipant) * numParticipants;
+                  extraShingarasNeeded = totalShingarasNeeded - numShingaras;
+                  document.getElementById('result').textContent = `You need to buy ${extraShingarasNeeded} more shingaras. Only then, participant's will get ${Math.ceil(shingarasPerParticipant)} shingara each.`;
+                  return;
+               }
+            });            
+      </script>
   </div>  
 </body>
 </html>
